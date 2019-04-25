@@ -88,11 +88,6 @@
                 $("#chain").append(b);
             }
 
-            var test = new Block("Andrew", null, 10, 0, 123456789);
-            addBlock(test);
-
-            addBlock(test);
-
             $(".block").on("click", function(obj) {
                 $($(this).children()[1]).slideToggle(500);
             })
@@ -106,6 +101,10 @@
 
             socket.on('block', function(block){
                 addBlock(block);
+                $(".block").off("click");
+                $(".block").on("click", function(obj) {
+                    $($(this).children()[1]).slideToggle(500);
+                })
             });
         </script>
     </body>
