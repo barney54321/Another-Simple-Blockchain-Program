@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Practice Blockchain</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <style> 
+            h1 {
+                font-family: 'Roboto', sans-serif;
+                text-align: center;
+            }
+
+            .block {
+                background-color: red;
+                padding: 4px;
+                margin-top: 6px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>Practice Blockchain</h1>
+        <div id="addition">
+            <fieldset>
+                <legend>Add new block</legend>
+                <form>
+                    <input type="text" id="name" placeholder="Name" required><br>
+                    <input type="number" id="value" placeholder="Value" required><br>
+                    <input type="submit" value="Submit">
+                </form>
+            </fieldset>
+        </div>
+        <div id="search">
+            <fieldset>
+                <legend>Find a block</legend>
+                <form>
+                    <input type="number" placeholder="Index"><br>
+                    <input type="button" value="Search">
+                </form>
+            </fieldset>
+        </div>
+        <div id="blocks">
+            <p id="hello"></p>
+            <fieldset>
+                <legend>Chain</legend>
+                <div id="chain"></div>
+            </fieldset>
+        </div>
+
+        <script>
+            //var block = require("./block");
+            //$("#hello").text("Hello world");
+            var socket = io();
+
+            class Block {
+                constructor(name, prev, value, index, hash) {
+                    this.name = name;
+                    this.prev = prev;
+                    this.value = value;
+                    this.index = index;
+                    this.hash = hash;
+                }
+            }
+
+            class SendBlock {
+                constructor(name, value) {
+                    this.name = name;
+                    this.value = value;
+                }
+            }
+
+            var chain = [];
+
+            function addBlock(block) {
+                chain.push(block);
+                var b = document.createElement("div");
+                var c = document.createElement("div");
+                var d = document.createElement("div");
+                b.classList.add("block");
+                d.innerHTML = "<strong>Index</strong>: " + block.index + "<br>";
+                c.classList.add("animator");
+                c.innerHTML = "<strong>Name</strong>: " + block.name + "<br>";
+                c.innerHTML += "<strong>Value</strong>: " + block.value + "<br>";
+                c.innerHTML += "<strong>Previous</strong>: " + block.prev + "<br>";
+                c.innerHTML += "<strong>Hash</strong>: " + block.hash + "<br>";
+                b.appendChild(d);
+                b.appendChild(c);
+                $("#chain").append(b);
+            }
+
+            var test = new Block("Andrew", null, 10, 0, 123456789);
+            addBlock(test);
+
+            addBlock(test);
+
+            $(".block").on("click", function(obj) {
+                $($(this).children()[1]).slideToggle(500);
+            })
+
+            $('form').submit(function(e){
+                e.preventDefault();
+                var block = new SendBlock($("#name").val(), $("#value").val());
+                socket.emit('block', block);
+                return false;
+            });
+
+            socket.on('block', function(block){
+                addBlock(block);
+            });
+        </script>
+    </body>
+</html>

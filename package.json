@@ -1,0 +1,30 @@
+{
+  "name": "andrew",
+  "version": "1.0.0",
+  "description": "A simple blockchain web application",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/barney54321/Another-Simple-Blockchain-Program.git"
+  },
+  "keywords": [
+    "blockchain",
+    "node"
+  ],
+  "author": "barney54321",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/barney54321/Another-Simple-Blockchain-Program/issues"
+  },
+  "homepage": "https://github.com/barney54321/Another-Simple-Blockchain-Program#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "sha256": "^0.2.0",
+    "socket.io": "^2.2.0"
+  }
+}
